@@ -8,3 +8,6 @@ Notes:
 - stack install seems to not work, possibly reinstalled GHCi but path not modified like it needs to be.  use stack build and stack run instead
 - stack test works
 - stack build seems to automatically add new libraries to .cabal file
+
+
+cellular-automata-exe
