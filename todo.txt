@@ -1,0 +1,10 @@
+- code up game of life
+- figure out how to print board
+- start basic stack project
+- add unit tests
+- start coding cellular atamaton 
+
+Notes:
+- stack install seems to not work, possibly reinstalled GHCi but path not modified like it needs to be.  use stack build and stack run instead
+- stack test works
+- stack build seems to automatically add new libraries to .cabal file
