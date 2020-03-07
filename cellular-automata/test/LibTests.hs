@@ -8,7 +8,7 @@ import GameOfLifeLib
 
 main :: IO ()
 main = do
-  defaultMain (testGroup "Some of our Library Tests" [sayYoTest, add5Test, wrapTest, wrapTest2, wrapTest3, wrapTest4])
+  defaultMain (testGroup "Some of our Library Tests" [sayYoTest, add5Test, wrapTest, wrapTest2, wrapTest3, wrapTest4, getNeighborsTest1, getNeighborsTest2, getNeighborsTest3])
 
 
 sayYoTest :: TestTree
@@ -34,3 +34,15 @@ wrapTest3 = testCase "wrap width returns width"
 wrapTest4 :: TestTree
 wrapTest4 = testCase "wrap 0 returns width"
   (assertEqual "wrap 0 returns width" maxCells (wrapCell 0))
+
+getNeighborsTest1 :: TestTree
+getNeighborsTest1 = testCase "neighbors of 2 are 1, 2, 3"
+  (assertEqual "neighbors of 2 are 1, 2, 3" [1,2,3] (getNeighbors 2))
+
+getNeighborsTest2 :: TestTree
+getNeighborsTest2 = testCase "neighbors of 1 are maxCells, 1, 2"
+  (assertEqual "neighbors of 1 are maxCells, 1, 2" [maxCells,1,2] (getNeighbors 1))
+
+getNeighborsTest3 :: TestTree
+getNeighborsTest3 = testCase "neighbors of max are max-1, max, 1"
+  (assertEqual "neighbors of max are max-1, max, 1" [maxCells-1, maxCells, 1] (getNeighbors maxCells))

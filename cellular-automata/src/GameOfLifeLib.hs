@@ -47,7 +47,7 @@ glider :: Board
 glider = [(4,2), (2,3), (4,3), (3,4), (4,4)]
 
 showcells :: Board -> IO ()
-showcells b = sequence_ [writeat p "O" | p <- b]
+showcells b = sequence_ [writeat p "#" | p <- b]
 
 isAlive :: Board -> Pos -> Bool
 isAlive b p = elem p b
