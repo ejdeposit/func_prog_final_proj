@@ -1,31 +1,21 @@
 module Lib
-    ( someFunc
-    , sayYo
-    , maxCells
-    , getNeighbors
+    ( maxCells
+    , seed
     , wrapCell
+    , getNeighbors
     , pyramidRules
     , nextGeneration
     , isChild
     , cellularAutomata
-    , clear
     , showRow
     , writeAt
-    , goto
     , wait'
     ) where
-
-someFunc :: IO ()
-someFunc = putStrLn "someFunc"
-
-sayYo :: String -> String
-sayYo input = "Yo " ++ input ++ "!"
 
 maxCells :: Int
 maxCells = 160
 
-type Cells = [Int]
-
+-- add type signature
 seed=[5]
 
 wrapCell :: Int -> Int
@@ -46,19 +36,20 @@ pyramidRules [False, True, False] = False
 pyramidRules [False, False, True] = True
 pyramidRules [False, False, False] = False
 
-
+-- write tests
 -- make next generations of list
 nextGeneration :: [Int] -> [Int]
 nextGeneration ps = filter (isChild ps) [1..maxCells] 
 
+-- write tests
 isChild :: [Int] -> Int -> Bool
 isChild ps c = pyramidRules [ elem a ps | a <- getNeighbors c ]
 
--- cellularAutomata :: [Int] -> IO ()
--- cellularAutomata ns = do clear
---                          showRow ns
---                          wait' 500000
---                          cellularAutomata (nextGeneration ns)
+-- write tests
+-- take out commprehsion and put in separate function for testing purposes
+-- hasNeighbors :: [Int] -> Int -> [Bool]
+-- hasNeighbors = undefined
+
 
 cellularAutomata :: [Int] -> IO ()
 cellularAutomata ns = do 
@@ -67,20 +58,11 @@ cellularAutomata ns = do
   wait' 100000000
   cellularAutomata (nextGeneration ns)
 
-clear :: IO ()
-clear = putStr "\ESC[2J"
-
--- showRow :: [Int] -> IO ()
--- showRow cs = sequence_ [writeAt p "#" | p <- cs]
+-- clear :: IO ()
+-- clear = putStr "\ESC[2J"
 
 showRow :: [Int] -> IO ()
 showRow cs = sequence_ [writeAt p "#" | p <- cs]
-
--- writeAt :: Int -> String -> IO ()
--- writeAt p xs = do goto p
---                   putStr xs
-
--- moved movecurso out of function after do and just put logic in after do statement
 
 writeAt :: Int -> String -> IO ()
 writeAt p xs = do 
@@ -89,13 +71,11 @@ writeAt p xs = do
   putStr xs
   putStr "\ESC[u"
 
--- goto (x) = putStr ("\ESC[" ++  show x ++ "H")
+-- goto :: Int -> IO ()
+-- goto x = putStr ("\ESC[" ++ show 1 ++ ";" ++ show x ++ "H")
 
-goto :: Int -> IO ()
-goto x = putStr ("\ESC[" ++ show 1 ++ ";" ++ show x ++ "H")
-
-moveCursor :: Int -> IO ()
-moveCursor x = do putStr ("\ESC[" ++ show x ++ "C")
+-- moveCursor :: Int -> IO ()
+-- moveCursor x = do putStr ("\ESC[" ++ show x ++ "C")
 
 wait' :: Int -> IO ()
 wait' n = sequence_ [return () | _ <- [1..n]]
