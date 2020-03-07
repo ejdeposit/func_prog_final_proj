@@ -4,4 +4,5 @@ import Lib
 import GameOfLifeLib
 
 main :: IO ()
-main = cellularAutomata [50] 
+main = do clear
+          cellularAutomata [80] 

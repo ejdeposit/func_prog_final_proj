@@ -22,7 +22,7 @@ sayYo :: String -> String
 sayYo input = "Yo " ++ input ++ "!"
 
 maxCells :: Int
-maxCells = 100
+maxCells = 160
 
 type Cells = [Int]
 
@@ -54,26 +54,48 @@ nextGeneration ps = filter (isChild ps) [1..maxCells]
 isChild :: [Int] -> Int -> Bool
 isChild ps c = pyramidRules [ elem a ps | a <- getNeighbors c ]
 
+-- cellularAutomata :: [Int] -> IO ()
+-- cellularAutomata ns = do clear
+--                          showRow ns
+--                          wait' 500000
+--                          cellularAutomata (nextGeneration ns)
+
 cellularAutomata :: [Int] -> IO ()
-cellularAutomata ns = do clear
-                         showRow ns
-                         wait' 500000
-                         cellularAutomata (nextGeneration ns)
+cellularAutomata ns = do 
+  putStr "\n"
+  showRow ns
+  wait' 100000000
+  cellularAutomata (nextGeneration ns)
 
 clear :: IO ()
 clear = putStr "\ESC[2J"
 
+-- showRow :: [Int] -> IO ()
+-- showRow cs = sequence_ [writeAt p "#" | p <- cs]
+
 showRow :: [Int] -> IO ()
 showRow cs = sequence_ [writeAt p "#" | p <- cs]
 
+-- writeAt :: Int -> String -> IO ()
+-- writeAt p xs = do goto p
+--                   putStr xs
+
+-- moved movecurso out of function after do and just put logic in after do statement
+
 writeAt :: Int -> String -> IO ()
-writeAt p xs = do goto p
-                  putStr xs
+writeAt p xs = do 
+  putStr "\ESC[s"
+  putStr ("\ESC[" ++ show p ++ "C")
+  putStr xs
+  putStr "\ESC[u"
 
 -- goto (x) = putStr ("\ESC[" ++  show x ++ "H")
 
 goto :: Int -> IO ()
 goto x = putStr ("\ESC[" ++ show 1 ++ ";" ++ show x ++ "H")
+
+moveCursor :: Int -> IO ()
+moveCursor x = do putStr ("\ESC[" ++ show x ++ "C")
 
 wait' :: Int -> IO ()
 wait' n = sequence_ [return () | _ <- [1..n]]
