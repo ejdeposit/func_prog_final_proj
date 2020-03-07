@@ -7,6 +7,7 @@ module Lib
     , nextGeneration
     , isChild
     , cellularAutomata
+    , clear
     , showRow
     , writeAt
     , wait'
@@ -58,8 +59,8 @@ cellularAutomata ns = do
   wait' 100000000
   cellularAutomata (nextGeneration ns)
 
--- clear :: IO ()
--- clear = putStr "\ESC[2J"
+clear :: IO ()
+clear = putStr "\ESC[2J"
 
 showRow :: [Int] -> IO ()
 showRow cs = sequence_ [writeAt p "#" | p <- cs]

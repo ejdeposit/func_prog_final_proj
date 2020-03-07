@@ -7,8 +7,8 @@ main :: IO ()
 main = do
   print "Hello, what is your name?"
   name <- getLine
-  print $ sayYo name
+  print ("hello" ++ name)
   print "What is your favorite number?"
   numberStr <- getLine
   print "Let's add 5!"
-  print $ add5 (read numberStr :: Int) 
+  print $ (+5) (read numberStr :: Int) 
