@@ -72,11 +72,5 @@ writeAt p xs = do
   putStr xs
   putStr "\ESC[u"
 
--- goto :: Int -> IO ()
--- goto x = putStr ("\ESC[" ++ show 1 ++ ";" ++ show x ++ "H")
-
--- moveCursor :: Int -> IO ()
--- moveCursor x = do putStr ("\ESC[" ++ show x ++ "C")
-
 wait' :: Int -> IO ()
 wait' n = sequence_ [return () | _ <- [1..n]]
