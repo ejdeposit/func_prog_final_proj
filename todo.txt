@@ -1,13 +1,19 @@
-- code up game of life
-- figure out how to print board
-- start basic stack project
-- add unit tests
-- start coding cellular atamaton 
+- x code up game of life
+- x figure out how to print board
+- x start basic stack project
+- x add unit tests
+- x start coding cellular atamaton 
+- x split functions into smaller ones where possible
+- write remaining tests
+- allow user to enter size
+- allow user to enter rule set
+
 
 Notes:
 - stack install seems to not work, possibly reinstalled GHCi but path not modified like it needs to be.  use stack build and stack run instead
 - stack test works
 - stack build seems to automatically add new libraries to .cabal file
+- stack install necessary for running main instead of using interpreter.  Much faster
 
 
 cellular-automata-exe

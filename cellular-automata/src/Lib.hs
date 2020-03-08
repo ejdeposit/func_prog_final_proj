@@ -6,6 +6,7 @@ module Lib
     , pyramidRules
     , nextGeneration
     , isChild
+    , hasNeighbors
     , cellularAutomata
     , clear
     , showRow
@@ -37,20 +38,19 @@ pyramidRules [False, True, False] = False
 pyramidRules [False, False, True] = True
 pyramidRules [False, False, False] = False
 
+hasNeighbors :: [Int] -> Int -> [Bool]
+hasNeighbors cs c = [ elem a cs | a <- getNeighbors c ]
+
+-- write tests
+isChild :: [Int] -> Int -> Bool
+isChild cs c = pyramidRules $ hasNeighbors cs c
+
 -- write tests
 -- make next generations of list
 nextGeneration :: [Int] -> [Int]
 nextGeneration ps = filter (isChild ps) [1..maxCells] 
 
--- write tests
-isChild :: [Int] -> Int -> Bool
-isChild ps c = pyramidRules [ elem a ps | a <- getNeighbors c ]
-
--- write tests
--- take out commprehsion and put in separate function for testing purposes
--- hasNeighbors :: [Int] -> Int -> [Bool]
--- hasNeighbors = undefined
-
+-- no tests for following function
 
 cellularAutomata :: [Int] -> IO ()
 cellularAutomata ns = do 
