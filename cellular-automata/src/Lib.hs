@@ -14,6 +14,8 @@ module Lib
     , wait'
     ) where
 
+import Data.List (permutations)
+
 maxCells :: Int
 maxCells = 160
 
@@ -38,6 +40,14 @@ pyramidRules [False, True, False] = False
 pyramidRules [False, False, True] = True
 pyramidRules [False, False, False] = False
 
+
+-- make way to create any rule
+
+
+-- add rules function that uses cases
+
+-- add rules function using if else
+
 hasNeighbors :: [Int] -> Int -> [Bool]
 hasNeighbors cs c = [ elem a cs | a <- getNeighbors c ]
 
@@ -50,8 +60,7 @@ isChild cs c = pyramidRules $ hasNeighbors cs c
 nextGeneration :: [Int] -> [Int]
 nextGeneration ps = filter (isChild ps) [1..maxCells] 
 
--- no tests for following function
-
+-- no tests for following IO function 
 cellularAutomata :: [Int] -> IO ()
 cellularAutomata ns = do 
   putStr "\n"
