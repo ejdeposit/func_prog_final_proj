@@ -13,6 +13,7 @@ module Lib
     , writeAt
     , wait'
     , pyramidRules'
+    , genRules
     ) where
 
 import Data.List (permutations)
@@ -41,6 +42,7 @@ pyramidRules [False, True, False] = False
 pyramidRules [False, False, True] = True
 pyramidRules [False, False, False] = False
 
+-- [False, True, False, True, True, False, True, False]
 -- general rulle should take list of bools and use where statment
 pyramidRules' :: [Bool] -> Bool
 pyramidRules' = (\x -> case x of [True, True, True]    -> False
@@ -52,6 +54,16 @@ pyramidRules' = (\x -> case x of [True, True, True]    -> False
                                  [False, False, True]  -> True
                                  [False, False, False] -> False)
 
+genRules :: [Bool] -> [Bool] -> Bool
+genRules = (\ys -> (\xs -> case xs of [True, True, True]    -> ys!!0
+                                      [True, True, False]   -> ys!!1
+                                      [True, False, True]   -> ys!!2
+                                      [True, False, False]  -> ys!!3
+                                      [False, True, True]   -> ys!!4
+                                      [False, True, False]  -> ys!!5
+                                      [False, False, True]  -> ys!!6
+                                      [False, False, False] -> ys!!7))
+                                     
 -- generalRule :: [Bool] -> Bool
 -- generalRule xs ys = case ys of [True, True, True]    -> xs!!0
 --                                [True, True, False]   -> xs!!1
@@ -102,8 +114,21 @@ cellularAutomata ns = do
 clear :: IO ()
 clear = putStr "\ESC[2J"
 
+
 showRow :: [Int] -> IO ()
-showRow cs = sequence_ [writeAt p "#" | p <- cs]
+showRow cs = sequence_ [writeAt p shapeString | p <- cs]
+
+-- showRow cs = sequence_ [writeAt p "#" | p <- cs]
+
+-- black square
+-- putChar '\9608'
+-- dots in shape of square
+-- putChar '\9618'
+shapeString :: String 
+shapeString = '\9608':[]
+
+
+
 
 writeAt :: Int -> String -> IO ()
 writeAt p xs = do 

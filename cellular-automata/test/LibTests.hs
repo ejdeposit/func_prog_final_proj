@@ -8,7 +8,7 @@ import GameOfLifeLib
 
 main :: IO ()
 main = do
-  defaultMain (testGroup "Some of our Library Tests" [wrapTest, wrapTest2, wrapTest3, wrapTest4, getNeighborsTest1, getNeighborsTest2, getNeighborsTest3, hasNeighborsTest0 ,hasNeighborsTest1, hasNeighborsTest2, hasNeighborsTest3, hasNeighborsTest4, hasNeighborsTest5, pyramidRulestest1])
+  defaultMain (testGroup "Some of our Library Tests" [wrapTest, wrapTest2, wrapTest3, wrapTest4, getNeighborsTest1, getNeighborsTest2, getNeighborsTest3, hasNeighborsTest0 ,hasNeighborsTest1, hasNeighborsTest2, hasNeighborsTest3, hasNeighborsTest4, hasNeighborsTest5, pyramidRulesTest1, genRuleTest1])
 
 wrapTest :: TestTree
 wrapTest = testCase "wrapCell width+1 returns 1"
@@ -62,9 +62,14 @@ hasNeighborsTest5 :: TestTree
 hasNeighborsTest5 = testCase "hasNeighbors [maxCells-1,maxCells,1] maxCells returns all True"
   (assertEqual "hasNeighbors [maxCells-1,maxCells,1] maxCells returns all True" [True,True,True] (hasNeighbors [maxCells-1,maxCells,1] maxCells))
 
-pyramidRulestest1 :: TestTree
-pyramidRulestest1 = testCase "same result as old pyramidrule func"
+pyramidRulesTest1 :: TestTree
+pyramidRulesTest1 = testCase "same result as old pyramidrule func"
   (assertEqual "same result as old pyramidrule func" False (pyramidRules' [True, True, True]))
+
+-- [False, True, False, True, True, False, True, False]
+genRuleTest1 :: TestTree
+genRuleTest1 = testCase "same result as frist pyramid func when given [f,t,f,t,t,f,t,f]"
+  (assertEqual "same result as frist pyramid func when given [f,t,f,t,t,f,t,f]" False (genRules [False, True, False, True, True, False, True, False] [True, True, True]))
 
 -- sayYoTest :: TestTree
 -- sayYoTest = testCase "Testing sayYo"
