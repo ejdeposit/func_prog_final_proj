@@ -66,7 +66,7 @@ powersetRulesNum = powerset [1,2,3,4,5,6,7,8]
 numsToBools xs = [ elem a xs | a <- [1..8]]
 
 -- generates all rules
-powersetRulesBool = map numsToBools powersetRulesNum
+powersetRules = map numsToBools powersetRulesNum
 
 -- use !! operator to index in to list and get list of rules
 

@@ -5,10 +5,15 @@ import GameOfLifeLib
 
 main :: IO ()
 main = do
-  print "Hello, what is your name?"
-  name <- getLine
-  print ("hello" ++ name)
-  print "What is your favorite number?"
+  print "Enter a number 0..255"
   numberStr <- getLine
-  print "Let's add 5!"
-  print $ (+5) (read numberStr :: Int) 
+  let rules = powersetRules 
+  let rule = (rules!!(read numberStr :: Int))
+  clear
+  cellularAutomata' [80] rule
+  
+  -- print ("hello" ++ name)
+  -- print "What is your favorite number?"
+  -- numberStr <- getLine
+  -- print "Let's add 5!"
+  -- print $ (+5) (read numberStr :: Int) 

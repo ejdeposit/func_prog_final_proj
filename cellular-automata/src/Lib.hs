@@ -14,6 +14,8 @@ module Lib
     , wait'
     , pyramidRules'
     , genRules
+    , cellularAutomata'
+    , powersetRules
     ) where
 
 import Data.List (permutations)
@@ -54,43 +56,6 @@ pyramidRules' = (\x -> case x of [True, True, True]    -> False
                                  [False, False, True]  -> True
                                  [False, False, False] -> False)
 
-genRules :: [Bool] -> [Bool] -> Bool
-genRules = (\ys -> (\xs -> case xs of [True, True, True]    -> ys!!0
-                                      [True, True, False]   -> ys!!1
-                                      [True, False, True]   -> ys!!2
-                                      [True, False, False]  -> ys!!3
-                                      [False, True, True]   -> ys!!4
-                                      [False, True, False]  -> ys!!5
-                                      [False, False, True]  -> ys!!6
-                                      [False, False, False] -> ys!!7))
-                                     
--- generalRule :: [Bool] -> Bool
--- generalRule xs ys = case ys of [True, True, True]    -> xs!!0
---                                [True, True, False]   -> xs!!1
---                                [True, False, True]   -> xs!!2
---                                [True, False, False]  -> xs!!3
---                                [False, True, True]   -> xs!!4
---                                [False, True, False]  -> xs!!5
---                                [False, False, True]  -> xs!!6
---                                [False, False, False] -> xs!!7
-
-
---   where result1 = False
---         result2 = True
---         result3 = False
---         result4 = True
---         result5 = True
---         result6 = False
---         result7 = True
---         result8 = False)
-
--- make way to create any rule
-
-
--- add rules function that uses cases
-
--- add rules function using if else
-
 hasNeighbors :: [Int] -> Int -> [Bool]
 hasNeighbors cs c = [ elem a cs | a <- getNeighbors c ]
 
@@ -103,7 +68,12 @@ isChild cs c = pyramidRules $ hasNeighbors cs c
 nextGeneration :: [Int] -> [Int]
 nextGeneration ps = filter (isChild ps) [1..maxCells] 
 
+----------------------------------------------------------------------
+--                           print functions 
+----------------------------------------------------------------------
 -- no tests for following IO function 
+
+-- take seed of first row of cells
 cellularAutomata :: [Int] -> IO ()
 cellularAutomata ns = do 
   putStr "\n"
@@ -114,21 +84,11 @@ cellularAutomata ns = do
 clear :: IO ()
 clear = putStr "\ESC[2J"
 
-
 showRow :: [Int] -> IO ()
 showRow cs = sequence_ [writeAt p shapeString | p <- cs]
 
--- showRow cs = sequence_ [writeAt p "#" | p <- cs]
-
--- black square
--- putChar '\9608'
--- dots in shape of square
--- putChar '\9618'
 shapeString :: String 
 shapeString = '\9608':[]
-
-
-
 
 writeAt :: Int -> String -> IO ()
 writeAt p xs = do 
@@ -139,3 +99,52 @@ writeAt p xs = do
 
 wait' :: Int -> IO ()
 wait' n = sequence_ [return () | _ <- [1..n]]
+
+
+----------------------------------------------------------------------
+--                      functions for user input 
+----------------------------------------------------------------------
+
+-- takes list of bools as input and returns rules function
+genRules :: [Bool] -> [Bool] -> Bool
+genRules = (\ys -> (\xs -> case xs of [True, True, True]    -> ys!!0
+                                      [True, True, False]   -> ys!!1
+                                      [True, False, True]   -> ys!!2
+                                      [True, False, False]  -> ys!!3
+                                      [False, True, True]   -> ys!!4
+                                      [False, True, False]  -> ys!!5
+                                      [False, False, True]  -> ys!!6
+                                      [False, False, False] -> ys!!7))
+                                     
+-- from text book
+filterM :: Monad m => (a -> m Bool) -> [a] -> m [a]
+filterM p [] = return []
+filterM p (x:xs) = do b <- p x
+                      ys <- filterM p xs
+                      return (if b then x:ys else ys)
+
+-- from text book
+powerset (x:xs) = filterM (\x -> [True, False]) (x:xs)
+
+-- generates power set of [1..8]
+powersetRulesNum = powerset [1,2,3,4,5,6,7,8]
+
+-- takes list of numbers and converts to list of trues and falses
+numsToBools xs = [ elem a xs | a <- [1..8]]
+
+-- generates all rules
+powersetRules = map numsToBools powersetRulesNum
+
+cellularAutomata' :: [Int] -> [Bool] -> IO ()
+cellularAutomata' cs rs = do 
+  putStr "\n"
+  showRow cs
+  wait' 100000000
+  cellularAutomata' (nextGeneration' cs rs) rs
+
+nextGeneration' :: [Int] -> [Bool] -> [Int]
+nextGeneration' ps rs = filter (isChild' ps rs) [1..maxCells] 
+
+-- rs has to come before c can be the last missing argument
+isChild' :: [Int] -> [Bool] -> Int -> Bool
+isChild' cs rs c = (genRules rs) $ hasNeighbors cs c
