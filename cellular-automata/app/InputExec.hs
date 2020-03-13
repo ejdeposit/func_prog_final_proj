@@ -5,12 +5,16 @@ import GameOfLifeLib
 
 main :: IO ()
 main = do
-  print "Enter a number 0..255"
+  print "Enter a rule number 0..255"
   numberStr <- getLine
-  let rules = powersetRules 
+  let rules = reverse powersetRules 
   let rule = (rules!!(read numberStr :: Int))
+  print "Enter a seed number 0..7"
+  seedStr <- getLine
+  let seeds = powersetSeedNum 
+  let seed = (seeds!!(read seedStr :: Int))
   clear
-  cellularAutomata' [80] rule
+  cellularAutomata' (map (80+) seed) rule
   
   -- print ("hello" ++ name)
   -- print "What is your favorite number?"

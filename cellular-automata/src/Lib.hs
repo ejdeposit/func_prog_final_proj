@@ -16,6 +16,7 @@ module Lib
     , genRules
     , cellularAutomata'
     , powersetRules
+    , powersetSeedNum
     ) where
 
 import Data.List (permutations)
@@ -128,6 +129,10 @@ powerset (x:xs) = filterM (\x -> [True, False]) (x:xs)
 
 -- generates power set of [1..8]
 powersetRulesNum = powerset [1,2,3,4,5,6,7,8]
+
+-- generate power set of [0..2]
+powersetSeedNum :: [[Int]]
+powersetSeedNum = powerset [0,1,2]
 
 -- takes list of numbers and converts to list of trues and falses
 numsToBools xs = [ elem a xs | a <- [1..8]]
