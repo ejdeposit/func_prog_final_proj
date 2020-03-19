@@ -117,7 +117,7 @@ genRules = (\ys -> (\xs -> case xs of [True, True, True]    -> ys!!0
                                       [False, False, True]  -> ys!!6
                                       [False, False, False] -> ys!!7))
                                      
--- from text book
+-- from text book pg 175
 filterM :: Monad m => (a -> m Bool) -> [a] -> m [a]
 filterM p [] = return []
 filterM p (x:xs) = do b <- p x
@@ -140,15 +140,15 @@ numsToBools xs = [ elem a xs | a <- [1..8]]
 -- generates all rules
 powersetRules = map numsToBools powersetRulesNum
 
-cellularAutomata' :: [Int] -> [Bool] -> IO ()
-cellularAutomata' cs rs = do 
+cellularAutomata' :: [Int] -> [Bool] -> Int -> IO ()
+cellularAutomata' cs rs w = do 
   putStr "\n"
   showRow cs
   wait' 100000000
-  cellularAutomata' (nextGeneration' cs rs) rs
+  cellularAutomata' (nextGeneration' cs rs w) rs w
 
-nextGeneration' :: [Int] -> [Bool] -> [Int]
-nextGeneration' ps rs = filter (isChild' ps rs) [1..maxCells] 
+nextGeneration' :: [Int] -> [Bool] -> Int -> [Int]
+nextGeneration' ps rs w = filter (isChild' ps rs) [1..w] 
 
 -- rs has to come before c can be the last missing argument
 isChild' :: [Int] -> [Bool] -> Int -> Bool
