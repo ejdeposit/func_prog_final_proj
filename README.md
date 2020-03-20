@@ -56,11 +56,12 @@ All unit tests are contained within `func_prog_final_proj/cellular-automata/test
 To go further with my project I wanted to create a version of the project that allowed you the user to select which set of rules to have the cellular automata use rather than have the rules hard coded.  I use the functions `filterM` and `powerset` from the textbook to generate a power set of the list [1...8].  These lists of numbers from 1 to 8 are then converted into lists of Booleans, where the ith element of the list is True if the number is in in the original list and false otherwise.  This creates a list with all the combinations of True and false that are 8 long.  The user is then able to select on of this lists of Booleans which is then passed to the `genRules` function which then returns a function that uses the rules that the user selected so that any elementary cellular automata can be generated. However, I quickly discovered a lot of the cellular automata are pretty boring.  I created some functions to allow the user to generate different starting seed configurations.  Originally,  the only starting configuration was having the middle cell alive.  The new functions allowed the user to select which different combinations of the cells are alive in the first generation for the center cells and its immediate neighbors.  However,  adding this didn't have any impact on the patterns that were generated. 
 
 
-![random looking cellular automata](./img/random.png)
+<!-- ![random looking cellular automata](./img/random.png) -->
+![shell pattern](./img/shell.png)
+
 
 ![actual shell](./img/2163545601_0ed4462378_b.jpg)
 
-![shell pattern](./img/shell.png)
 
 <!-- ![shell pattern](./img/random2.png) -->
 
